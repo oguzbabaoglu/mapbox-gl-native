@@ -92,6 +92,7 @@ Style::~Style() {
 
 void Style::addSource(std::unique_ptr<Source> source) {
     source->setObserver(this);
+    if (data.mode == MapMode::Still) source->load();
     sources.emplace_back(std::move(source));
 }
 
