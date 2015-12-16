@@ -49,6 +49,8 @@ void Style::setJSON(const std::string& json, const std::string&) {
         return;
     }
 
+    allSourcesLoaded = false;
+
     StyleParser parser;
     parser.parse(doc);
 
@@ -67,11 +69,16 @@ void Style::setJSON(const std::string& json, const std::string&) {
 }
 
 void Style::loadSources() {
+    if (allSourcesLoaded) return;
+
+    bool checkAllSourcesLoaded = true;
     for (auto& source : sources) {
-        if (source->loaded) continue;
-        if (source->isLoading()) continue;
+        bool sourceIsLoaded = source->loaded || source->isLoading();
+        checkAllSourcesLoaded &= sourceIsLoaded;
+        if (sourceIsLoaded) continue;
         if (source->enabled) source->load();
     }
+    allSourcesLoaded = checkAllSourcesLoaded;
 }
 
 Style::~Style() {

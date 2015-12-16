@@ -134,6 +134,7 @@ private:
     void emitResourceLoadingFailed(std::exception_ptr error);
 
     bool shouldReparsePartialTiles = false;
+    bool allSourcesLoaded = false;
 
     Observer* observer = nullptr;
 
