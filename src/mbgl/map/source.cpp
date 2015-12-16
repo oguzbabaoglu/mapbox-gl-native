@@ -52,6 +52,14 @@ bool Source::isLoaded() const {
     return true;
 }
 
+bool Source::isLoading() const {
+    if (loaded) {
+        return false;
+    }
+
+    return req.operator bool();
+}
+
 // Note: This is a separate function that must be called exactly once after creation
 // The reason this isn't part of the constructor is that calling shared_from_this() in
 // the constructor fails.

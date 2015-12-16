@@ -101,6 +101,8 @@ public:
 
     void dumpDebugLogs() const;
 
+    void loadSources();
+
     MapData& data;
     std::unique_ptr<GlyphStore> glyphStore;
     std::unique_ptr<GlyphAtlas> glyphAtlas;

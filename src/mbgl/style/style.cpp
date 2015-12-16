@@ -66,6 +66,14 @@ void Style::setJSON(const std::string& json, const std::string&) {
     loaded = true;
 }
 
+void Style::loadSources() {
+    for (auto& source : sources) {
+        if (source->loaded) continue;
+        if (source->isLoading()) continue;
+        if (source->enabled) source->load();
+    }
+}
+
 Style::~Style() {
     for (const auto& source : sources) {
         source->setObserver(nullptr);
@@ -77,7 +85,6 @@ Style::~Style() {
 
 void Style::addSource(std::unique_ptr<Source> source) {
     source->setObserver(this);
-    source->load();
     sources.emplace_back(std::move(source));
 }
 
@@ -166,6 +173,8 @@ void Style::cascade() {
     for (const auto& layer : layers) {
         layer->cascade(parameters);
     }
+
+    loadSources();
 }
 
 void Style::recalculate(float z) {
@@ -184,12 +193,10 @@ void Style::recalculate(float z) {
         hasPendingTransitions |= layer->recalculate(parameters);
 
         Source* source = getSource(layer->source);
-        if (!source) {
-            continue;
-        }
-
-        source->enabled = true;
+        if (source && layer->needsRendering()) source->enabled = true;
     }
+
+    loadSources();
 }
 
 Source* Style::getSource(const std::string& id) const {
