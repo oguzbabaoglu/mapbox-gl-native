@@ -1,19 +1,20 @@
 language: cpp
 
-sudo: false
+sudo: required
+dist: trusty
 
 # Save common build configurations as shortcuts, so we can reference them later.
 addons_shortcuts:
   addons_clang35: &clang35
     apt:
-      sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.5' ]
+      sources: [ 'ubuntu-toolchain-r-test' ]
       packages: [ 'gdb', 'clang-3.5', 'libstdc++-4.9-dev', 'libstdc++6', 'libllvm3.4', 'xutils-dev',
-                  'libxxf86vm-dev', 'x11proto-xf86vidmode-dev', 'mesa-utils' ]
+                  'libxxf86vm-dev', 'x11proto-xf86vidmode-dev', 'mesa-utils', 'libglfw-dev' ]
   addons_gcc49: &gcc49
     apt:
       sources: [ 'ubuntu-toolchain-r-test' ]
       packages: [ 'gdb', 'g++-4.9', 'gcc-4.9', 'libllvm3.4', 'xutils-dev',
-                  'libxxf86vm-dev', 'x11proto-xf86vidmode-dev', 'mesa-utils' ]
+                  'libxxf86vm-dev', 'x11proto-xf86vidmode-dev', 'mesa-utils', 'libglfw-dev' ]
   addons_clang38-tidy: &clang38-tidy
     apt:
       sources: [ 'ubuntu-toolchain-r-test', 'llvm-toolchain-precise' ]
